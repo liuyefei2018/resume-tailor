@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { completeJSON } from "@/lib/llm";
 import { parserSystemPrompt, parserUserMessage } from "@/lib/prompts";
-import { createSession, updateSession } from "@/lib/session-store";
+
+export const runtime = "nodejs";
 
 export async function POST(request: NextRequest) {
   try {
@@ -19,18 +20,10 @@ export async function POST(request: NextRequest) {
       parserUserMessage(rawText),
     ]);
 
-    // Step 2: Create session with parsed data
-    const sessionId = createSession(rawText);
-    updateSession(sessionId, {
-      parsedData,
-      status: "digging",
-    });
-
-    // Step 3: Get first digger question
+    // Step 2: Generate first digger question
     const firstQuestion = await generateDiggerQuestion(parsedData);
 
     return NextResponse.json({
-      sessionId,
       parsedData,
       firstQuestion,
     });

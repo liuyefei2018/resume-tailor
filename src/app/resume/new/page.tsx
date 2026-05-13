@@ -12,7 +12,8 @@ type Phase = "input" | "parsing" | "digging" | "generating" | "done";
 export default function ResumeNewPage() {
   const [phase, setPhase] = useState<Phase>("input");
   const [rawText, setRawText] = useState("");
-  const [sessionId, setSessionId] = useState<string | null>(null);
+  const [parsedData, setParsedData] = useState<any>(null);
+  const [conversationLog, setConversationLog] = useState<Message[]>([]);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [resume, setResume] = useState<string | null>(null);
@@ -37,7 +38,8 @@ export default function ResumeNewPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
 
-      setSessionId(data.sessionId);
+      setParsedData(data.parsedData);
+      setConversationLog([]);
       setMessages([
         { role: "assistant", content: data.firstQuestion || "I've analyzed your background. Let me start asking about your experience." },
       ]);
@@ -49,7 +51,7 @@ export default function ResumeNewPage() {
   };
 
   const handleSendMessage = async () => {
-    if (!input.trim() || !sessionId) return;
+    if (!input.trim() || !parsedData) return;
     const userMsg = input.trim();
     setInput("");
     setMessages((prev) => [...prev, { role: "user", content: userMsg }]);
@@ -58,11 +60,16 @@ export default function ResumeNewPage() {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sessionId, message: userMsg }),
+        body: JSON.stringify({
+          message: userMsg,
+          parsedData,
+          conversationLog,
+        }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
 
+      setConversationLog(data.conversationLog || []);
       setMessages((prev) => [
         ...prev,
         { role: "assistant", content: data.message },
@@ -78,12 +85,12 @@ export default function ResumeNewPage() {
   };
 
   const handleGenerate = async () => {
-    if (!sessionId) return;
+    if (!parsedData) return;
     try {
       const res = await fetch("/api/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sessionId }),
+        body: JSON.stringify({ parsedData, conversationLog }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
@@ -234,8 +241,9 @@ export default function ResumeNewPage() {
               onClick={() => {
                 setPhase("input");
                 setRawText("");
+                setParsedData(null);
+                setConversationLog([]);
                 setMessages([]);
-                setSessionId(null);
                 setResume(null);
               }}
               className="px-6 py-3 bg-slate-100 text-slate-700 rounded-xl hover:bg-slate-200 transition-colors text-lg font-medium"
