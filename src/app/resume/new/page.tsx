@@ -110,13 +110,34 @@ export default function ResumeNewPage() {
   return (
     <main className="max-w-5xl mx-auto px-6 py-10">
       {/* Header */}
-      <div className="text-center mb-8">
-        <h1 className="text-5xl font-bold text-slate-800">
-          ResumeTailor ✦
-        </h1>
-        <p className="text-slate-500 mt-2 text-xl">
-          Raw experience in → Polished English resume out
-        </p>
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h1 className="text-5xl font-bold text-slate-800">
+            ResumeTailor ✦
+          </h1>
+          <p className="text-slate-500 mt-2 text-xl">
+            Raw experience in → Polished English resume out
+          </p>
+        </div>
+        <div className="text-right text-sm text-slate-400 space-y-1">
+          <div>
+            <a
+              href="https://x.com/ye_fei77375"
+              target="_blank"
+              className="hover:text-blue-600 transition-colors"
+            >
+              X: @ye_fei77375
+            </a>
+          </div>
+          <div>
+            <a
+              href="mailto:yefei.evil@gmail.com"
+              className="hover:text-blue-600 transition-colors"
+            >
+              yefei.evil@gmail.com
+            </a>
+          </div>
+        </div>
       </div>
 
       {/* Step indicators */}

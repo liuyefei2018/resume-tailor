@@ -6,12 +6,20 @@ export default function Home() {
       {/* Navigation */}
       <nav className="flex items-center justify-between py-6">
         <span className="text-xl font-bold text-slate-800">ResumeTailor ✦</span>
-        <Link
-          href="/resume/new"
-          className="px-5 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
-        >
-          Try for Free
-        </Link>
+        <div className="flex items-center gap-6 text-sm text-slate-400">
+          <a href="https://x.com/ye_fei77375" target="_blank" className="hover:text-blue-600 transition-colors">
+            X: @ye_fei77375
+          </a>
+          <a href="mailto:yefei.evil@gmail.com" className="hover:text-blue-600 transition-colors">
+            yefei.evil@gmail.com
+          </a>
+          <Link
+            href="/resume/new"
+            className="px-5 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
+          >
+            Try for Free
+          </Link>
+        </div>
       </nav>
 
       {/* Hero */}
