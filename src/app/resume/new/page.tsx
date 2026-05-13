@@ -173,7 +173,7 @@ export default function ResumeNewPage() {
           </label>
           <textarea
             className="w-full h-96 p-6 border border-slate-200 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg leading-relaxed"
-            placeholder={`Example: I worked at 58同城 for 9 years. Started as senior engineer, later became tech lead then tech manager. Managed a team of 40 people...`}
+            placeholder={`Example: I worked at x.com for 5 years. Started as senior engineer, later became tech lead. Managed a team of 15 people...`}
             value={rawText}
             onChange={(e) => setRawText(e.target.value)}
           />
